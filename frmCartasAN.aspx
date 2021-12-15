@@ -20,9 +20,11 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    
+    <asp:ScriptManager ID="ScriptManager2" runat="server"></asp:ScriptManager>
     <script type="text/javascript">
-        
+        function OnClick(s, e) {
+            e.processOnServer = ASPxClientEdit.ValidateGroup("submit", true);
+        }
     </script>
     <% if (DesignMode){ %>
         <script src="../../JS/ASPxScriptIntelliSense.js" type="text/javascript"></script>
@@ -59,7 +61,7 @@
                     <dx:GridViewDataTextColumn FieldName="MONEDA" Caption="MONEDA" Visible="false" />
                     <dx:GridViewDataColumn VisibleIndex="5">
                         <DataItemTemplate>
-                            <dx:ASPxButton ID="ASPxButton1" runat="server" OnClick="generarCarta_Click" 
+                            <dx:ASPxButton ID="ASPxButton1" runat="server" OnClick="generarCarta" 
                                 AutoPostBack="False" RenderMode="Link" Text="Carta" Visible='<%# Eval("CUENTA").ToString() != "" ? true : false%>' 
                                 CommandArgument=' <%# Eval("SIREFO") +"|"+ 
                                                       Eval("FECHA_CITE") +"|"+ 
@@ -81,6 +83,20 @@
         </td>
     </tr>
     </table>
+
+    <div style="padding: 10px 10px 10px 10px">
+        <dx:ASPxButton ID="btn" runat="server" ClientInstanceName="btn" ClientVisible="false" OnClick="btn_Click" />
+        <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+            <ContentTemplate>
+                <dx:ASPxButton ID="btnGeneraCartas" ClientInstanceName="btnGeneraCarta" runat="server" CausesValidation="true" ValidationGroup="submit" 
+                               Text="Generar Carta" Width="350" AutoPostBack="true" OnClick="btn_GenerarCarta_Click" >
+                    <ClientSideEvents Click="OnClick" />
+                </dx:ASPxButton>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+    <rsweb:ReportViewer ID="rptVisor" runat="server" AsyncRendering="false" Width="900" ZoomMode="PageWidth"></rsweb:ReportViewer>
+
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">

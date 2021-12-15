@@ -11,7 +11,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>15cm</Height>
+              <Height>18.80118cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -54,7 +54,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!FECHA_CARTA_SPANISH.Value</Value>
+                                  <Value>[FECHA_CARTA]</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -118,7 +118,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID_RETENCIONESANIO.Value</Value>
+                                  <Value>SO/</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -186,14 +186,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!NOMBRE_RESPUESTA_CARTA.Value + 
- IIf(Len(Fields!CARGO_AUTORIDAD.Value)&gt;0, System.Environment.NewLine +Fields!CARGO_AUTORIDAD.Value, "") +
- IIf(Len(Fields!JUZGADO.Value)&gt;0, System.Environment.NewLine +Fields!JUZGADO.Value, "") +
- IIf(Fields!TIPO.Value="M", 
-	IIf(Len(Fields!DIRECCION.Value)&gt;0, System.Environment.NewLine + Fields!DIRECCION.Value, ""),
-	IIf(Len(Fields!SERVICIO.Value)&gt;0, System.Environment.NewLine + Fields!SERVICIO.Value, "")
- ) +
- IIf(Len(Fields!CIUDAD_DESTINO.Value)&gt;0, System.Environment.NewLine +Fields!CIUDAD_DESTINO.Value, "")</Value>
+                                  <Value>Romina Lena Perez Aries</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -204,9 +197,52 @@
                                 <TextAlign>Left</TextAlign>
                               </Style>
                             </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Gerente Regional</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Aduana Nacional</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>SANTA CRUZ</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>Underline</TextDecoration>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>NOMBRE_RESPUESTA_CARTA</rd:DefaultName>
-                          <Top>2.37558cm</Top>
+                          <Top>2.41086cm</Top>
                           <Left>0.0364cm</Left>
                           <Height>2.85188cm</Height>
                           <Width>16.59cm</Width>
@@ -280,7 +316,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>De nuestra consideración.</Value>
+                                  <Value>De nuestra consideración:</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                   </Style>
@@ -290,8 +326,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox9</rd:DefaultName>
-                          <Top>7.76605cm</Top>
-                          <Left>0.0364cm</Left>
+                          <Top>7.80133cm</Top>
+                          <Left>0cm</Left>
                           <Height>0.6cm</Height>
                           <Width>16.59cm</Width>
                           <ZIndex>7</ZIndex>
@@ -312,91 +348,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Dando cumplimiento a la carta circular </Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!NUM_CIRCULAR_ASFI.Value</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>, de fecha </Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!FECHA_CIRCULAR_ASFI_SPANISH.Value</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>  del año en curso, dentro del Proceso </Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=IIf(Fields!TIPO.Value="M", Fields!NOMBRE_PROCESO.Value, Fields!CONCATENADO1.Value)</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value> informado mediante carta </Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!CODIGO_CONCATENADO.Value</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value> seguido por "</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!DEMANDANTE.Value</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>"</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value> contra </Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=IIf(Fields!TIPO.Value="M", Chr(34)+  Fields!DEMANDADO.Value +Chr(34), Fields!CONCATENADO2.Value)</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>, al respecto nos corresponde informar lo siguiente:</Value>
+                                  <Value>Dando cumplimiento a la Carta Circular de Retención de Fondos [SIREFO] de fecha [FECHA_CITE] del año en curso, dentro del Proceso de Ejecución Tributaria informado mediante nota [PIET], que sigue la [DEMANDANTE], contra [CLIENTE], por el importe demandado de [MONEDA_C]. [MONTO] ([MONTO_LITERAL] [MONEDA_L]), por la presente le informamos, que hemos precedido a la retención de fondos en la siguiente cuenta:</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                   </Style>
@@ -428,21 +380,24 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>No es/son cliente(s) </Value>
+                                  <Value>NOMBRE O                   CUENTA               MANEJO DE                  MONEDA                IMPORTE</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
-                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
                                   </Style>
                                 </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
                                 <TextRun>
-                                  <Value>de nuestra Institución, el/los cual(es) no registra(n) producto alguno:</Value>
+                                  <Value>RAZON SOCIAL                                        CUENTA                                                      RETENIDO</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
                                     <TextDecoration>None</TextDecoration>
                                     <Color>#000000</Color>
                                   </Style>
@@ -453,8 +408,8 @@
                           </Paragraphs>
                           <rd:DefaultName>Textbox4</rd:DefaultName>
                           <Top>10.80852cm</Top>
-                          <Left>0.0364cm</Left>
-                          <Height>0.62645cm</Height>
+                          <Left>0.11cm</Left>
+                          <Height>1.07624cm</Height>
                           <Width>16.59cm</Width>
                           <ZIndex>9</ZIndex>
                           <Style>
@@ -474,6 +429,39 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Informamos que a la fecha se retuvo el importe total demandado detallado anteriormente.</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
                                   <Value>Con este particular esperando haber cumplido con su requerimiento, saludamos a usted atentamente.</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
@@ -486,7 +474,7 @@
                           <rd:DefaultName>Textbox16</rd:DefaultName>
                           <Top>12.70525cm</Top>
                           <Left>0.0364cm</Left>
-                          <Height>0.6cm</Height>
+                          <Height>3.12838cm</Height>
                           <Width>16.5536cm</Width>
                           <ZIndex>10</ZIndex>
                           <Style>
@@ -519,8 +507,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox17</rd:DefaultName>
-                          <Top>14.03446cm</Top>
-                          <Left>0cm</Left>
+                          <Top>15.93946cm</Top>
                           <Height>0.6cm</Height>
                           <Width>16.59cm</Width>
                           <ZIndex>11</ZIndex>
@@ -538,10 +525,19 @@
                           <TablixBody>
                             <TablixColumns>
                               <TablixColumn>
-                                <Width>10.59cm</Width>
+                                <Width>4.09542cm</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>6cm</Width>
+                                <Width>2.87042cm</Width>
+                              </TablixColumn>
+                              <TablixColumn>
+                                <Width>3.88333cm</Width>
+                              </TablixColumn>
+                              <TablixColumn>
+                                <Width>3.18792cm</Width>
+                              </TablixColumn>
+                              <TablixColumn>
+                                <Width>2.55292cm</Width>
                               </TablixColumn>
                             </TablixColumns>
                             <TablixRows>
@@ -557,16 +553,44 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!NOMBRE.Value</Value>
+                                                <Value>[NOMBRE]</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
-                                            <ListStyle>Bulleted</ListStyle>
-                                            <ListLevel>1</ListLevel>
                                             <Style />
                                           </Paragraph>
                                         </Paragraphs>
                                         <rd:DefaultName>NOMBRE1</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox2">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>[CUENTA]</Value>
+                                                <Style />
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style />
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox2</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -589,15 +613,80 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!NUMERO_DOC.Value</Value>
+                                                <Value>[MANEJO]</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
-                                            <ListLevel>1</ListLevel>
-                                            <Style />
+                                            <Style>
+                                              <TextAlign>Left</TextAlign>
+                                            </Style>
                                           </Paragraph>
                                         </Paragraphs>
                                         <rd:DefaultName>NUMERO_DOC1</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox7">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>[MONEDA_N]</Value>
+                                                <Style />
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Left</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox7</rd:DefaultName>
+                                        <Style>
+                                          <Border>
+                                            <Color>LightGrey</Color>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox10">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>[MONTO]</Value>
+                                                <Style />
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Left</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox10</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -619,6 +708,9 @@
                             <TablixMembers>
                               <TablixMember />
                               <TablixMember />
+                              <TablixMember />
+                              <TablixMember />
+                              <TablixMember />
                             </TablixMembers>
                           </TablixColumnHierarchy>
                           <TablixRowHierarchy>
@@ -629,7 +721,7 @@
                             </TablixMembers>
                           </TablixRowHierarchy>
                           <DataSetName>DataSet1</DataSetName>
-                          <Top>11.72601cm</Top>
+                          <Top>12.04351cm</Top>
                           <Height>0.6cm</Height>
                           <Width>16.59cm</Width>
                           <ZIndex>12</ZIndex>
@@ -685,7 +777,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Height>15cm</Height>
+        <Height>18.80118cm</Height>
         <Width>16.7cm</Width>
         <Style>
           <Border>
@@ -694,13 +786,13 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>5.90551in</Height>
+    <Height>7.4576in</Height>
     <Style />
   </Body>
   <Width>6.5748in</Width>
   <Page>
     <PageFooter>
-      <Height>2cm</Height>
+      <Height>2.23812cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -721,6 +813,7 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>USUARIO</rd:DefaultName>
+          <Top>0.14111cm</Top>
           <Height>2cm</Height>
           <Width>5cm</Width>
           <Style>

@@ -23,12 +23,12 @@ public partial class UI_OPE_frmCartasAN : System.Web.UI.Page
     /// <summary>
     /// mapeo direccion MapPath de contexto estatico
     /// </summary>
-    //private static string CURRENT_DIR = System.Web.HttpContext.Current.Server.MapPath("~");
-    //private static string PATH_TEMPLATE = CURRENT_DIR + @"UI\OPE\template.doc";
-    //private static string PATH_NEW_DOC = CURRENT_DIR + @"UI\OPE\";
-    private static string CURRENT_DIR = @"E:\websiafiles\templates\";
-    private static string PATH_TEMPLATE = CURRENT_DIR + "template.doc";
-    private static string PATH_NEW_DOC = CURRENT_DIR;
+    private static string CURRENT_DIR = System.Web.HttpContext.Current.Server.MapPath("~");
+    private static string PATH_TEMPLATE = CURRENT_DIR + @"UI\OPE\template.doc";
+    private static string PATH_NEW_DOC = CURRENT_DIR + @"UI\OPE\";
+    //private static string CURRENT_DIR = @"E:\websiafiles\templates\";
+    //private static string PATH_TEMPLATE = CURRENT_DIR + "template.doc";
+    //private static string PATH_NEW_DOC = CURRENT_DIR;
     /// <summary>
     /// instancia libreria para Word
     /// </summary>
@@ -71,7 +71,187 @@ public partial class UI_OPE_frmCartasAN : System.Web.UI.Page
         FileInfo newFile = new FileInfo(path);
         newFile.Delete();
         Response.End();        
-    }    
+    }
+    protected void generarCarta(object sender, EventArgs e)
+    {
+        string[] args = ((ASPxButton)sender).CommandArgument.Split(new char[] { '|' });
+        /// cada array es una fila de parametros
+        DateTime fechaActual = DateTime.Now;
+        string dia = fechaActual.ToString("dd");
+        string mes = fechaActual.ToString("MMMM");
+        string anio = fechaActual.ToString("yyyy");
+        string FECHA_CARTA = dia + " de " + mes + " de " + anio;
+        string MONTO = args[7];
+        ///
+        var culture = new System.Globalization.CultureInfo("es-ES");///Spanish
+        decimal monto_decimal = decimal.Parse(MONTO.Replace(",", "."), culture);
+        string MONTO_LITERAL = monto_decimal.NumeroALetras();
+        ///
+        var app = new Application();
+        try
+        {
+            var doc = app.Documents.Add(HttpContext.Current.Server.MapPath("~") + @"UPLOAD\DOC\template.dotx", Visible: false);
+            doc.Activate();
+            var sel = app.Selection;
+            ///
+            sel.Find.Text = "[FECHA_CARTA]";
+            sel.Find.Replacement.Text = FECHA_CARTA;
+            sel.Find.Wrap = WdFindWrap.wdFindContinue;
+            sel.Find.Forward = true;
+            sel.Find.Format = false;
+            sel.Find.MatchCase = false;
+            sel.Find.MatchWholeWord = false;
+            sel.Find.Execute(Replace: WdReplace.wdReplaceAll);
+            ///
+            sel.Find.Text = "[MONTO]";
+            sel.Find.Replacement.Text = MONTO;
+            sel.Find.Wrap = WdFindWrap.wdFindContinue;
+            sel.Find.Forward = true;
+            sel.Find.Format = false;
+            sel.Find.MatchCase = false;
+            sel.Find.MatchWholeWord = false;
+            sel.Find.Execute(Replace: WdReplace.wdReplaceAll);
+            ///
+            sel.Find.Text = "[MONTO_LITERAL]";
+            sel.Find.Replacement.Text = MONTO_LITERAL;
+            sel.Find.Wrap = WdFindWrap.wdFindContinue;
+            sel.Find.Forward = true;
+            sel.Find.Format = false;
+            sel.Find.MatchCase = false;
+            sel.Find.MatchWholeWord = false;
+            sel.Find.Execute(Replace: WdReplace.wdReplaceAll);
+            ///
+            doc.SaveAs(HttpContext.Current.Server.MapPath("~") + @"TMP\modificado-exito.docx");
+            this.Context.Session["sesCite"] = "modificado-exito";
+            doc.Close();
+            Response.ClearContent();
+            Response.Clear();
+            Response.ContentType = "text/plain";
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + this.Context.Session["sesCite"].ToString() + ".docx;");
+            Response.TransmitFile(HttpContext.Current.Server.MapPath("~") + @"TMP\" + this.Context.Session["sesCite"].ToString() + ".docx");
+            Response.Flush();
+            FileInfo newFile = new FileInfo(HttpContext.Current.Server.MapPath("~") + @"TMP\" + this.Context.Session["sesCite"].ToString() + ".docx");
+            newFile.Delete();
+            Response.End();
+            app.Quit();
+        }
+        catch (Exception error)
+        {
+            throw error;
+        }   
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btn_GenerarCarta_Click(object sender, EventArgs e)
+    {
+        ///
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btn_Click(object sender, EventArgs e)
+    {
+        ///
+        generaReporte();
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    protected void generaReporte()
+    {
+        string argumentos = "SIREFO" +"|"+ "FECHA_CITE" +"|"+ "PIET" +"|"+ "TIPO" +"|"+ "NUMERO" +"|"+ "NOMBRE" +"|"+ "CUENTA" +"|"+ "MONTO" +"|"+ "MONEDA";
+        string[] args = argumentos.Split(new char[] { '|' });
+        ///
+        System.Data.DataTable datosCarta = new System.Data.DataTable();
+        datosCarta.Columns.Add("SIREFO", typeof(string));
+        datosCarta.Columns.Add("FECHA_CITE", typeof(string));
+        datosCarta.Columns.Add("PIET", typeof(string));
+        datosCarta.Columns.Add("TIPO", typeof(string));
+        datosCarta.Columns.Add("NUMERO", typeof(string));
+        datosCarta.Columns.Add("NOMBRE", typeof(string));
+        datosCarta.Columns.Add("CUENTA", typeof(string));
+        datosCarta.Columns.Add("MONTO", typeof(string));
+        datosCarta.Columns.Add("MONEDA", typeof(string));
+        datosCarta.Columns.Add("FECHA_CARTA", typeof(string));
+        datosCarta.Columns.Add("DEMANDANTE", typeof(string));
+        datosCarta.Columns.Add("MONEDA_L", typeof(string));
+        datosCarta.Columns.Add("MONEDA_C", typeof(string));
+        datosCarta.Columns.Add("MONTO_LITERAL", typeof(string));
+        datosCarta.Columns.Add("DESC_TIPO_USO", typeof(string));
+        ///
+        DataRow row = datosCarta.NewRow();
+        ///
+        row["SIREFO"] = args[0];
+        row["FECHA_CITE"] = args[1];
+        row["PIET"] = args[2];
+        row["TIPO"] = args[3];
+        row["NUMERO"] = args[4];
+        row["NOMBRE"] = args[5];
+        row["CUENTA"] = args[6];
+        row["MONTO"] = args[7];
+        row["MONEDA"] = args[8];
+        ///
+        DateTime fechaActual = DateTime.Now;
+        string dia = fechaActual.ToString("dd");
+        string mes = fechaActual.ToString("MMMM");
+        string anio = fechaActual.ToString("yyyy");
+        string FECHA_CARTA = dia + " de " + mes + " de " + anio;
+        row["FECHA_CARTA"] = FECHA_CARTA;
+        ///
+        row["DEMANDANTE"] = "Gerencia Regional de la Aduana Nacional";///constante
+        ///
+        string MONEDA_L = "";
+        string MONEDA_C = "";
+        if (args[8] == "1")
+        {
+            MONEDA_L = "Bolivianos";
+            MONEDA_C = "Bs";
+        }
+        else
+        {
+            MONEDA_L = "Dólares";
+            MONEDA_C = "Sus";
+        }
+        row["MONEDA_L"] = MONEDA_L;
+        row["MONEDA_C"] = MONEDA_C;
+        ///
+        var culture = new System.Globalization.CultureInfo("es-ES");///Spanish
+        decimal monto_decimal = decimal.Parse(args[7].Replace(",", "."), culture);
+        string MONTO_LITERAL = monto_decimal.NumeroALetras();
+        row["MONTO_LITERAL"] = MONTO_LITERAL;
+        ///parametro MANEJO - TIPO_USO de la cuenta - campo C1686 de SALDOS
+        clsOperacionesNeg objNegocio = new clsOperacionesNeg();
+        System.Data.DataTable dtReturn = objNegocio.mtdCuentaTipoUso(args[6]);
+        string tipo_uso = "No Determinado";
+        if (dtReturn != null)
+        {
+            tipo_uso = dtReturn.Rows[0]["DESC_TIPO_USO"].ToString();
+        }
+        row["DESC_TIPO_USO"] = tipo_uso;
+        ///
+        datosCarta.Rows.Add(row);
+        ///
+        try
+        {
+            rptVisor.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
+            rptVisor.LocalReport.ReportPath = Server.MapPath("template01.rdlc");
+            ReportDataSource datasource = new ReportDataSource("DataSet1", datosCarta);
+
+            rptVisor.LocalReport.DataSources.Clear();
+            rptVisor.LocalReport.DataSources.Add(datasource);
+            rptVisor.LocalReport.Refresh();
+        }
+        catch (Exception error)
+        {
+            throw error;
+        }
+
+    }
     /// <summary>
     /// abre nuevo doc y lo copia en la raiz
     /// </summary>
@@ -278,6 +458,13 @@ public partial class UI_OPE_frmCartasAN : System.Web.UI.Page
                 }
             }
         }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    protected void cargaReporte()
+    {
+
     }
     /// <summary>
     /// RECORRE EL EXCEL
