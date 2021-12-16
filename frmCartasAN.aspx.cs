@@ -22,7 +22,8 @@ public partial class UI_OPE_frmCartasAN : System.Web.UI.Page
 {
     /// <summary>
     /// mapeo direccion MapPath de contexto estatico
-    /// </summary>
+    /// DEPRECADO POR INESTABILIDAD NO SE DEBEN MANIPULAR ARCHIVOS WORD EN EL SERVIDOR
+    /// </summary>    
     private static string CURRENT_DIR = System.Web.HttpContext.Current.Server.MapPath("~");
     private static string PATH_TEMPLATE = CURRENT_DIR + @"UI\OPE\template.doc";
     private static string PATH_NEW_DOC = CURRENT_DIR + @"UI\OPE\";
@@ -31,6 +32,7 @@ public partial class UI_OPE_frmCartasAN : System.Web.UI.Page
     //private static string PATH_NEW_DOC = CURRENT_DIR;
     /// <summary>
     /// instancia libreria para Word
+    /// DEPRECADO POR INESTABILIDAD
     /// </summary>
     private static Application objWord = new Application();
     /// <summary>
@@ -52,390 +54,6 @@ public partial class UI_OPE_frmCartasAN : System.Web.UI.Page
             ASPxGridView1.DataBind();
         }
 
-    }
-    /// <summary>
-    /// genera carta
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void generarCarta_Click(object sender, EventArgs e)
-    {
-        string[] argumentos = ((ASPxButton)sender).CommandArgument.Split(new char[] { '|' });        
-        string fileName = "AN-" + DateTime.Now.ToString("yyyymmddhhmmssmss") + ".doc";
-        string path = getNuevoDocumento(fileName);  
-        abreDocumento(path, argumentos);
-        Response.ContentType = "Application/msword";
-        Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName + ";");
-        Response.TransmitFile(path);
-        Response.Flush();
-        FileInfo newFile = new FileInfo(path);
-        newFile.Delete();
-        Response.End();        
-    }
-    protected void generarCarta(object sender, EventArgs e)
-    {
-        string[] args = ((ASPxButton)sender).CommandArgument.Split(new char[] { '|' });
-        /// cada array es una fila de parametros
-        DateTime fechaActual = DateTime.Now;
-        string dia = fechaActual.ToString("dd");
-        string mes = fechaActual.ToString("MMMM");
-        string anio = fechaActual.ToString("yyyy");
-        string FECHA_CARTA = dia + " de " + mes + " de " + anio;
-        string MONTO = args[7];
-        ///
-        var culture = new System.Globalization.CultureInfo("es-ES");///Spanish
-        decimal monto_decimal = decimal.Parse(MONTO.Replace(",", "."), culture);
-        string MONTO_LITERAL = monto_decimal.NumeroALetras();
-        ///
-        var app = new Application();
-        try
-        {
-            var doc = app.Documents.Add(HttpContext.Current.Server.MapPath("~") + @"UPLOAD\DOC\template.dotx", Visible: false);
-            doc.Activate();
-            var sel = app.Selection;
-            ///
-            sel.Find.Text = "[FECHA_CARTA]";
-            sel.Find.Replacement.Text = FECHA_CARTA;
-            sel.Find.Wrap = WdFindWrap.wdFindContinue;
-            sel.Find.Forward = true;
-            sel.Find.Format = false;
-            sel.Find.MatchCase = false;
-            sel.Find.MatchWholeWord = false;
-            sel.Find.Execute(Replace: WdReplace.wdReplaceAll);
-            ///
-            sel.Find.Text = "[MONTO]";
-            sel.Find.Replacement.Text = MONTO;
-            sel.Find.Wrap = WdFindWrap.wdFindContinue;
-            sel.Find.Forward = true;
-            sel.Find.Format = false;
-            sel.Find.MatchCase = false;
-            sel.Find.MatchWholeWord = false;
-            sel.Find.Execute(Replace: WdReplace.wdReplaceAll);
-            ///
-            sel.Find.Text = "[MONTO_LITERAL]";
-            sel.Find.Replacement.Text = MONTO_LITERAL;
-            sel.Find.Wrap = WdFindWrap.wdFindContinue;
-            sel.Find.Forward = true;
-            sel.Find.Format = false;
-            sel.Find.MatchCase = false;
-            sel.Find.MatchWholeWord = false;
-            sel.Find.Execute(Replace: WdReplace.wdReplaceAll);
-            ///
-            doc.SaveAs(HttpContext.Current.Server.MapPath("~") + @"TMP\modificado-exito.docx");
-            this.Context.Session["sesCite"] = "modificado-exito";
-            doc.Close();
-            Response.ClearContent();
-            Response.Clear();
-            Response.ContentType = "text/plain";
-            Response.AddHeader("Content-Disposition", "attachment; filename=" + this.Context.Session["sesCite"].ToString() + ".docx;");
-            Response.TransmitFile(HttpContext.Current.Server.MapPath("~") + @"TMP\" + this.Context.Session["sesCite"].ToString() + ".docx");
-            Response.Flush();
-            FileInfo newFile = new FileInfo(HttpContext.Current.Server.MapPath("~") + @"TMP\" + this.Context.Session["sesCite"].ToString() + ".docx");
-            newFile.Delete();
-            Response.End();
-            app.Quit();
-        }
-        catch (Exception error)
-        {
-            throw error;
-        }   
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btn_GenerarCarta_Click(object sender, EventArgs e)
-    {
-        ///
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btn_Click(object sender, EventArgs e)
-    {
-        ///
-        generaReporte();
-    }
-    /// <summary>
-    /// 
-    /// </summary>
-    protected void generaReporte()
-    {
-        string argumentos = "SIREFO" +"|"+ "FECHA_CITE" +"|"+ "PIET" +"|"+ "TIPO" +"|"+ "NUMERO" +"|"+ "NOMBRE" +"|"+ "CUENTA" +"|"+ "MONTO" +"|"+ "MONEDA";
-        string[] args = argumentos.Split(new char[] { '|' });
-        ///
-        System.Data.DataTable datosCarta = new System.Data.DataTable();
-        datosCarta.Columns.Add("SIREFO", typeof(string));
-        datosCarta.Columns.Add("FECHA_CITE", typeof(string));
-        datosCarta.Columns.Add("PIET", typeof(string));
-        datosCarta.Columns.Add("TIPO", typeof(string));
-        datosCarta.Columns.Add("NUMERO", typeof(string));
-        datosCarta.Columns.Add("NOMBRE", typeof(string));
-        datosCarta.Columns.Add("CUENTA", typeof(string));
-        datosCarta.Columns.Add("MONTO", typeof(string));
-        datosCarta.Columns.Add("MONEDA", typeof(string));
-        datosCarta.Columns.Add("FECHA_CARTA", typeof(string));
-        datosCarta.Columns.Add("DEMANDANTE", typeof(string));
-        datosCarta.Columns.Add("MONEDA_L", typeof(string));
-        datosCarta.Columns.Add("MONEDA_C", typeof(string));
-        datosCarta.Columns.Add("MONTO_LITERAL", typeof(string));
-        datosCarta.Columns.Add("DESC_TIPO_USO", typeof(string));
-        ///
-        DataRow row = datosCarta.NewRow();
-        ///
-        row["SIREFO"] = args[0];
-        row["FECHA_CITE"] = args[1];
-        row["PIET"] = args[2];
-        row["TIPO"] = args[3];
-        row["NUMERO"] = args[4];
-        row["NOMBRE"] = args[5];
-        row["CUENTA"] = args[6];
-        row["MONTO"] = args[7];
-        row["MONEDA"] = args[8];
-        ///
-        DateTime fechaActual = DateTime.Now;
-        string dia = fechaActual.ToString("dd");
-        string mes = fechaActual.ToString("MMMM");
-        string anio = fechaActual.ToString("yyyy");
-        string FECHA_CARTA = dia + " de " + mes + " de " + anio;
-        row["FECHA_CARTA"] = FECHA_CARTA;
-        ///
-        row["DEMANDANTE"] = "Gerencia Regional de la Aduana Nacional";///constante
-        ///
-        string MONEDA_L = "";
-        string MONEDA_C = "";
-        if (args[8] == "1")
-        {
-            MONEDA_L = "Bolivianos";
-            MONEDA_C = "Bs";
-        }
-        else
-        {
-            MONEDA_L = "Dólares";
-            MONEDA_C = "Sus";
-        }
-        row["MONEDA_L"] = MONEDA_L;
-        row["MONEDA_C"] = MONEDA_C;
-        ///
-        var culture = new System.Globalization.CultureInfo("es-ES");///Spanish
-        decimal monto_decimal = decimal.Parse(args[7].Replace(",", "."), culture);
-        string MONTO_LITERAL = monto_decimal.NumeroALetras();
-        row["MONTO_LITERAL"] = MONTO_LITERAL;
-        ///parametro MANEJO - TIPO_USO de la cuenta - campo C1686 de SALDOS
-        clsOperacionesNeg objNegocio = new clsOperacionesNeg();
-        System.Data.DataTable dtReturn = objNegocio.mtdCuentaTipoUso(args[6]);
-        string tipo_uso = "No Determinado";
-        if (dtReturn != null)
-        {
-            tipo_uso = dtReturn.Rows[0]["DESC_TIPO_USO"].ToString();
-        }
-        row["DESC_TIPO_USO"] = tipo_uso;
-        ///
-        datosCarta.Rows.Add(row);
-        ///
-        try
-        {
-            rptVisor.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
-            rptVisor.LocalReport.ReportPath = Server.MapPath("template01.rdlc");
-            ReportDataSource datasource = new ReportDataSource("DataSet1", datosCarta);
-
-            rptVisor.LocalReport.DataSources.Clear();
-            rptVisor.LocalReport.DataSources.Add(datasource);
-            rptVisor.LocalReport.Refresh();
-        }
-        catch (Exception error)
-        {
-            throw error;
-        }
-
-    }
-    /// <summary>
-    /// abre nuevo doc y lo copia en la raiz
-    /// </summary>
-    /// <returns></returns>
-    static string getNuevoDocumento(string fileName)
-    {
-        try
-        {
-            string pathFile = @PATH_NEW_DOC + fileName;
-            File.Copy(@PATH_TEMPLATE, pathFile, true);            
-            return pathFile;
-        }
-        catch (UnauthorizedAccessException e)
-        {
-            throw e;
-        }
-        catch (DirectoryNotFoundException e)
-        {
-            throw e;
-        }
-
-    }
-    /// <summary>
-    /// edita el documento
-    /// </summary>
-    /// <param name="path"></param>
-    static void abreDocumento(string path, string[] args)
-    {
-        try
-        {
-            /// cada array es una fila de parametros
-            DateTime fechaActual = DateTime.Now;
-            string dia  = fechaActual.ToString("dd");
-            string mes  = fechaActual.ToString("MMMM");
-            string anio = fechaActual.ToString("yyyy");
-            string FECHA_CARTA = dia + " de " + mes + " de " + anio;
-            ///validaciones
-            string SIREFO      = args[0];
-            string FECHA_CITE  = args[1];
-            string PIET        = args[2];
-            string INSTITUCION = "Gerencia Regional de la Aduana Nacional";///constante
-            string CLIENTE     = args[5];
-            string CUENTA      = args[6];
-            string MONTO       = args[7];
-            var culture = new System.Globalization.CultureInfo("es-ES");///Spanish
-            decimal monto_decimal = decimal.Parse(MONTO.Replace(",","."), culture);            
-            string MONTO_LITERAL  = monto_decimal.NumeroALetras();
-            string MONEDA_L    = "";
-            string MONEDA_C    = "";
-            if (args[8] == "1")
-            {
-                MONEDA_L = "Bolivianos";
-                MONEDA_C = "Bs";
-            }
-            else
-            {
-                MONEDA_L = "Dólares";
-                MONEDA_C = "Sus";
-            }
-            /// instanciamos documento
-            Application objWord = new Application();
-            Document documento = objWord.Documents.Open(path);
-            documento.Activate();
-            FindAndReplace(objWord, "[FECHA_CARTA]", FECHA_CARTA);
-            FindAndReplace(objWord, "[PIET]", PIET);
-            FindAndReplace(objWord, "[SIREFO]", SIREFO);
-            FindAndReplace(objWord, "[FECHA_CITE]", FECHA_CITE);
-            FindAndReplace(objWord, "[INSTITUCION]", INSTITUCION);
-            FindAndReplace(objWord, "[CLIENTE]", CLIENTE);
-            FindAndReplace(objWord, "[MONEDA_L]", MONEDA_L);
-            FindAndReplace(objWord, "[MONEDA_C]", MONEDA_C);
-            FindAndReplace(objWord, "[MONTO]", MONTO);
-            FindAndReplace(objWord, "[MONTO_LITERAL]", MONTO_LITERAL);
-            ///parametro MANEJO - TIPO_USO de la cuenta - campo C1686 de SALDOS
-            clsOperacionesNeg objNegocio = new clsOperacionesNeg();
-            System.Data.DataTable dtReturn = objNegocio.mtdCuentaTipoUso(CUENTA);
-            string tipo_uso = "No Determinado";
-            if (dtReturn != null)
-            {
-                tipo_uso = dtReturn.Rows[0]["DESC_TIPO_USO"].ToString();
-            }            
-            ///por el momento: una cuenta --> una carta
-            EditTable(1, ref documento, args, tipo_uso);
-            documento.Save();
-            documento.Close();
-        }
-        catch (FileNotFoundException e)
-        {
-            throw e;
-        }
-    }
-    /// <summary>
-    /// edita la tabla dentro del documento
-    /// </summary>
-    /// <param name="rows"></param>
-    /// <param name="value"></param>
-    /// <param name="doc"></param>
-    static void EditTable(int rows, ref Document doc, string[] args, string tipo_uso)
-    {
-        try
-        {
-            string TIPO      = args[3];
-            string DOCUMENTO = args[4];
-            string CLIENTE   = args[5];
-            string CUENTA    = args[6];
-            string MONTO     = args[7];
-            string MANEJO    = tipo_uso;
-            string MONEDA_N = "";
-            string MONEDA_C = "";
-            if (args[8] == "1")
-            {
-                MONEDA_N = "Nacional";
-                MONEDA_C = "Bs";
-            }
-            else
-            {
-                MONEDA_N = "Extranjera";
-                MONEDA_C = "Sus";
-            }
-            ///
-            foreach (Section s in doc.Sections)
-            {
-                Tables tables = s.Range.Tables;
-                int count = 0;
-                foreach (Microsoft.Office.Interop.Word.Table table in tables)
-                {
-                    if (count > 0) 
-                        break;
-                    ///
-                    table.Rows.Add();
-                    for (var i = 1; i <= rows; i++)
-                    {
-                        table.Cell(i + 1, 1).Range.Text = CLIENTE + " " + TIPO + " " + DOCUMENTO;
-                        table.Cell(i + 1, 2).Range.Text = CUENTA;
-                        table.Cell(i + 1, 3).Range.Text = MANEJO;
-                        table.Cell(i + 1, 4).Range.Text = MONEDA_N;
-                        table.Cell(i + 1, 5).Range.Text = MONEDA_C + " " + MONTO;
-                        table.Cell(i + 1, 1).Range.Bold = 0;
-                        table.Cell(i + 1, 2).Range.Bold = 0;
-                        table.Cell(i + 1, 3).Range.Bold = 0;
-                        table.Cell(i + 1, 4).Range.Bold = 0;
-                        table.Cell(i + 1, 5).Range.Bold = 0;
-                    }
-                    table.Borders.Enable = 1;
-                    
-                    count++;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
-    }
-    /// <summary>
-    /// SAMPLE DE LA LIBRERIA Microsoft.Office.Interop.Word
-    /// </summary>
-    /// <param name="WordApp"></param>
-    /// <param name="findText"></param>
-    /// <param name="replaceWithText"></param>
-    private static void FindAndReplace(Microsoft.Office.Interop.Word.Application WordApp, object findText, object replaceWithText)
-    {
-        object matchCase = true;
-        object matchWholeWord = true;
-        object matchWildCards = false;
-        object matchSoundsLike = false;
-        object nmatchAllWordForms = false;
-        object forward = true;
-        object format = false;
-        object matchKashida = false;
-        object matchDiacritics = false;
-        object matchAlefHamza = false;
-        object matchControl = false;
-        object read_only = false;
-        object visible = true;
-        object replace = 2;
-        object wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
-        object replaceAll = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
-        WordApp.Selection.Find.Execute(ref findText, ref matchCase, ref matchWholeWord, ref matchWildCards, ref matchSoundsLike,
-        ref nmatchAllWordForms, ref forward,
-        ref wrap, ref format, ref replaceWithText,
-        ref replaceAll, ref matchKashida,
-        ref matchDiacritics, ref matchAlefHamza,
-        ref matchControl);
     }
     /// <summary>
     /// CAPTURA EL EXCEL
@@ -506,42 +124,452 @@ public partial class UI_OPE_frmCartasAN : System.Web.UI.Page
     /// <returns></returns>
     public List<dynamic> procesarDatos(System.Data.DataTable dataTable)
     {
-        string vSIREFO;    
+        string vSIREFO;
         string vFECHA_CITE;
-        string vPIET;      
-        string vTIPO;      
-        string vNUMERO;    
-        string vNOMBRE;    
-        string vCUENTA;    
-        string vMONTO;     
-        string vMONEDA;    
+        string vPIET;
+        string vTIPO;
+        string vNUMERO;
+        string vNOMBRE;
+        string vCUENTA;
+        string vMONTO;
+        string vMONEDA;
         List<dynamic> data = new List<dynamic>();
         foreach (DataRow item in dataTable.Rows)
         {
             var row = item.ItemArray;
-            vSIREFO     = row[1].ToString().Trim(); 
-            vFECHA_CITE = row[2].ToString().Trim(); 
-            vPIET       = row[3].ToString().Trim(); 
-            vTIPO       = row[4].ToString().Trim(); 
-            vNUMERO     = row[5].ToString().Trim(); 
-            vNOMBRE     = row[6].ToString().Trim(); 
-            vCUENTA     = row[10].ToString().Trim();
-            vMONTO      = row[11].ToString().Trim();
-            vMONEDA     = row[12].ToString().Trim();
-            data.Add(new { 
-                SIREFO     = vSIREFO, 
-                FECHA_CITE = vFECHA_CITE, 
-                PIET       = vPIET, 
-                TIPO       = vTIPO, 
-                NUMERO     = vNUMERO, 
-                NOMBRE     = vNOMBRE, 
-                CUENTA     = vCUENTA, 
-                MONTO      = vMONTO, 
-                MONEDA     = vMONEDA
+            vSIREFO = row[1].ToString().Trim();
+            vFECHA_CITE = row[2].ToString().Trim();
+            vPIET = row[3].ToString().Trim();
+            vTIPO = row[4].ToString().Trim();
+            vNUMERO = row[5].ToString().Trim();
+            vNOMBRE = row[6].ToString().Trim();
+            vCUENTA = row[10].ToString().Trim();
+            vMONTO = row[11].ToString().Trim();
+            vMONEDA = row[12].ToString().Trim();
+            data.Add(new
+            {
+                SIREFO = vSIREFO,
+                FECHA_CITE = vFECHA_CITE,
+                PIET = vPIET,
+                TIPO = vTIPO,
+                NUMERO = vNUMERO,
+                NOMBRE = vNOMBRE,
+                CUENTA = vCUENTA,
+                MONTO = vMONTO,
+                MONEDA = vMONEDA
             });
         }
         return data;
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void generaCartaRetencion_Click(object sender, EventArgs e)
+    {
+        string argumentos = ((ASPxButton)sender).CommandArgument;        
+        generaRetencion(argumentos);
+    }
+    protected void generaCartaBloqueo_Click(object sender, EventArgs e)
+    {
+        string argumentos = ((ASPxButton)sender).CommandArgument;
+        generaBloqueo(argumentos);
+    }
+    protected void generaBloqueo(string argumentos)
+    {
+        string[] args = argumentos.Split(new char[] { '|' });
+        ///
+        System.Data.DataTable datosCarta = new System.Data.DataTable();
+        datosCarta.Columns.Add("SIREFO", typeof(string));
+        datosCarta.Columns.Add("FECHA_CITE", typeof(string));
+        datosCarta.Columns.Add("PIET", typeof(string));
+        datosCarta.Columns.Add("TIPO", typeof(string));
+        datosCarta.Columns.Add("NUMERO", typeof(string));
+        datosCarta.Columns.Add("NOMBRE", typeof(string));
+        datosCarta.Columns.Add("CUENTA", typeof(string));
+        datosCarta.Columns.Add("MONTO", typeof(string));
+        datosCarta.Columns.Add("MONEDA", typeof(string));
+        datosCarta.Columns.Add("FECHA_CARTA", typeof(string));
+        datosCarta.Columns.Add("DEMANDANTE", typeof(string));
+        datosCarta.Columns.Add("MONEDA_C", typeof(string));
+        ///
+        DataRow row = datosCarta.NewRow();
+        row["SIREFO"] = args[0];
+        ///
+        string dia = "";
+        string mes = "";
+        string anio = "";
+        DateTime fecha_cite = DateTime.ParseExact(args[1], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        dia = fecha_cite.ToString("dd");
+        mes = fecha_cite.ToString("MMMM");
+        string FECHA_CITE = dia + " de " + mes + " del año en curso";
+        row["FECHA_CITE"] = FECHA_CITE;
+        ///
+        row["PIET"] = args[2];
+        row["TIPO"] = args[3];
+        row["NUMERO"] = args[4];
+        row["NOMBRE"] = args[5];
+        row["CUENTA"] = args[6];
+        row["MONTO"] = args[7];
+        row["MONEDA"] = args[8];
+        ///
+        DateTime fechaActual = DateTime.Now;
+        dia = fechaActual.ToString("dd");
+        mes = fechaActual.ToString("MMMM");
+        anio = fechaActual.ToString("yyyy");
+        string FECHA_CARTA = dia + " de " + mes + " de " + anio;
+        row["FECHA_CARTA"] = FECHA_CARTA;
+        ///
+        //CONSTANTE MODIFICADA POR EL USUARIO
+        row["DEMANDANTE"] = "Gerencia Regional de la Aduana Nacional";///constante
+        ///
+        string MONEDA_C = "";
+        if (args[8] == "1")
+        {
+            MONEDA_C = "Bs";
+        }
+        else
+        {
+            MONEDA_C = "Sus";
+        }
+        row["MONEDA_C"] = MONEDA_C;
+        ///
+        datosCarta.Rows.Add(row);
+        ///
+        try
+        {
+            rptVisor.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
+            rptVisor.LocalReport.ReportPath = Server.MapPath("template02.rdlc");
+            ReportDataSource datasource = new ReportDataSource("DataSet1", datosCarta);
+            ///
+            rptVisor.LocalReport.DataSources.Clear();
+            rptVisor.LocalReport.DataSources.Add(datasource);
+            rptVisor.LocalReport.Refresh();
+        }
+        catch (Exception error)
+        {
+            throw error;
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    protected void generaRetencion(string argumentos)
+    {
+        string[] args = argumentos.Split(new char[] { '|' });
+        ///
+        System.Data.DataTable datosCarta = new System.Data.DataTable();
+        datosCarta.Columns.Add("SIREFO", typeof(string));
+        datosCarta.Columns.Add("FECHA_CITE", typeof(string));
+        datosCarta.Columns.Add("PIET", typeof(string));
+        datosCarta.Columns.Add("TIPO", typeof(string));
+        datosCarta.Columns.Add("NUMERO", typeof(string));
+        datosCarta.Columns.Add("NOMBRE", typeof(string));
+        datosCarta.Columns.Add("CUENTA", typeof(string));
+        datosCarta.Columns.Add("MONTO", typeof(string));
+        datosCarta.Columns.Add("MONEDA", typeof(string));
+        datosCarta.Columns.Add("FECHA_CARTA", typeof(string));
+        datosCarta.Columns.Add("DEMANDANTE", typeof(string));
+        datosCarta.Columns.Add("MONEDA_L", typeof(string));
+        datosCarta.Columns.Add("MONEDA_C", typeof(string));
+        datosCarta.Columns.Add("MONEDA_N", typeof(string));
+        datosCarta.Columns.Add("MONTO_LITERAL", typeof(string));
+        datosCarta.Columns.Add("DESC_TIPO_USO", typeof(string));
+        ///
+        DataRow row = datosCarta.NewRow();
+        row["SIREFO"] = args[0];
+        ///
+        string dia = "";
+        string mes = "";
+        string anio = "";
+        DateTime fecha_cite = DateTime.ParseExact(args[1], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        dia = fecha_cite.ToString("dd");
+        mes = fecha_cite.ToString("MMMM");
+        string FECHA_CITE = dia + " de " + mes + " del año en curso";
+        row["FECHA_CITE"] = FECHA_CITE;
+        ///
+        row["PIET"] = args[2];
+        row["TIPO"] = args[3];
+        row["NUMERO"] = args[4];
+        row["NOMBRE"] = args[5];
+        row["CUENTA"] = args[6];
+        row["MONTO"] = args[7];
+        row["MONEDA"] = args[8];
+        ///
+        DateTime fechaActual = DateTime.Now;
+        dia = fechaActual.ToString("dd");
+        mes = fechaActual.ToString("MMMM");
+        anio = fechaActual.ToString("yyyy");
+        string FECHA_CARTA = dia + " de " + mes + " de " + anio;
+        row["FECHA_CARTA"] = FECHA_CARTA;
+        ///
+        //CONSTANTE MODIFICADA POR EL USUARIO
+        row["DEMANDANTE"] = "Gerencia Regional de la Aduana Nacional";///constante
+        ///
+        string MONEDA_L = "";
+        string MONEDA_C = ""; 
+        string MONEDA_N = "";
+        if (args[8] == "1")
+        {
+            MONEDA_L = "Bolivianos";
+            MONEDA_C = "Bs";
+            MONEDA_N = "Nacional";
+        }
+        else
+        {
+            MONEDA_L = "Dólares";
+            MONEDA_C = "Sus";
+            MONEDA_N = "Extranjera";
+        }
+        row["MONEDA_L"] = MONEDA_L;
+        row["MONEDA_C"] = MONEDA_C;
+        row["MONEDA_N"] = MONEDA_N;
+        ///
+        var culture = new System.Globalization.CultureInfo("es-ES");///Spanish
+        decimal monto_decimal = decimal.Parse(args[7].Replace(".", ","), culture);
+        string MONTO_LITERAL = monto_decimal.NumeroALetras();
+        row["MONTO_LITERAL"] = MONTO_LITERAL;
+        ///parametro MANEJO - TIPO_USO de la cuenta - campo C1686 de SALDOS
+        clsOperacionesNeg objNegocio = new clsOperacionesNeg();
+        System.Data.DataTable dtReturn = objNegocio.mtdCuentaTipoUso(args[6]);
+        string tipo_uso = "No Determinado";
+        if (dtReturn != null)
+        {
+            tipo_uso = dtReturn.Rows[0]["DESC_TIPO_USO"].ToString();
+        }
+        row["DESC_TIPO_USO"] = tipo_uso;
+        ///
+        datosCarta.Rows.Add(row);
+        ///
+        try
+        {
+            rptVisor.ProcessingMode = Microsoft.Reporting.WebForms.ProcessingMode.Local;
+            rptVisor.LocalReport.ReportPath = Server.MapPath("template01.rdlc");
+            ReportDataSource datasource = new ReportDataSource("DataSet1", datosCarta);
+            ///
+            rptVisor.LocalReport.DataSources.Clear();
+            rptVisor.LocalReport.DataSources.Add(datasource);
+            rptVisor.LocalReport.Refresh();
+        }
+        catch (Exception error)
+        {
+            throw error;
+        }
+
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// genera carta
+    /// DEPRECADO POR INESTABILIDAD
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void generarCarta_Click(object sender, EventArgs e)
+    {
+        string[] argumentos = ((ASPxButton)sender).CommandArgument.Split(new char[] { '|' });
+        string fileName = "AN-" + DateTime.Now.ToString("yyyymmddhhmmssmss") + ".doc";
+        string path = getNuevoDocumento(fileName);
+        abreDocumento(path, argumentos);
+        Response.ContentType = "Application/msword";
+        Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName + ";");
+        Response.TransmitFile(path);
+        Response.Flush();
+        FileInfo newFile = new FileInfo(path);
+        newFile.Delete();
+        Response.End();
+    }        
+    /// <summary>
+    /// abre nuevo doc y lo copia en la raiz
+    /// DEPRECADO POR INESTABILIDAD
+    /// </summary>
+    /// <returns></returns>
+    static string getNuevoDocumento(string fileName)
+    {
+        try
+        {
+            string pathFile = @PATH_NEW_DOC + fileName;
+            File.Copy(@PATH_TEMPLATE, pathFile, true);            
+            return pathFile;
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            throw e;
+        }
+        catch (DirectoryNotFoundException e)
+        {
+            throw e;
+        }
+
+    }
+    /// <summary>
+    /// edita el documento
+    /// DEPRECADO POR INESTABILIDAD
+    /// </summary>
+    /// <param name="path"></param>
+    static void abreDocumento(string path, string[] args)
+    {
+        try
+        {
+            /// cada array es una fila de parametros
+            DateTime fechaActual = DateTime.Now;
+            string dia  = fechaActual.ToString("dd");
+            string mes  = fechaActual.ToString("MMMM");
+            string anio = fechaActual.ToString("yyyy");
+            string FECHA_CARTA = dia + " de " + mes + " de " + anio;
+            ///validaciones
+            string SIREFO      = args[0];
+            string FECHA_CITE  = args[1];
+            string PIET        = args[2];
+            string INSTITUCION = "Gerencia Regional de la Aduana Nacional";///constante
+            string CLIENTE     = args[5];
+            string CUENTA      = args[6];
+            string MONTO       = args[7];
+            var culture = new System.Globalization.CultureInfo("es-ES");///Spanish
+            decimal monto_decimal = decimal.Parse(MONTO.Replace(",","."), culture);            
+            string MONTO_LITERAL  = monto_decimal.NumeroALetras();
+            string MONEDA_L    = "";
+            string MONEDA_C    = "";
+            if (args[8] == "1")
+            {
+                MONEDA_L = "Bolivianos";
+                MONEDA_C = "Bs";
+            }
+            else
+            {
+                MONEDA_L = "Dólares";
+                MONEDA_C = "Sus";
+            }
+            /// instanciamos documento
+            Application objWord = new Application();
+            Document documento = objWord.Documents.Open(path);
+            documento.Activate();
+            FindAndReplace(objWord, "[FECHA_CARTA]", FECHA_CARTA);
+            FindAndReplace(objWord, "[PIET]", PIET);
+            FindAndReplace(objWord, "[SIREFO]", SIREFO);
+            FindAndReplace(objWord, "[FECHA_CITE]", FECHA_CITE);
+            FindAndReplace(objWord, "[INSTITUCION]", INSTITUCION);
+            FindAndReplace(objWord, "[CLIENTE]", CLIENTE);
+            FindAndReplace(objWord, "[MONEDA_L]", MONEDA_L);
+            FindAndReplace(objWord, "[MONEDA_C]", MONEDA_C);
+            FindAndReplace(objWord, "[MONTO]", MONTO);
+            FindAndReplace(objWord, "[MONTO_LITERAL]", MONTO_LITERAL);
+            ///parametro MANEJO - TIPO_USO de la cuenta - campo C1686 de SALDOS
+            clsOperacionesNeg objNegocio = new clsOperacionesNeg();
+            System.Data.DataTable dtReturn = objNegocio.mtdCuentaTipoUso(CUENTA);
+            string tipo_uso = "No Determinado";
+            if (dtReturn != null)
+            {
+                tipo_uso = dtReturn.Rows[0]["DESC_TIPO_USO"].ToString();
+            }            
+            ///por el momento: una cuenta --> una carta
+            EditTable(1, ref documento, args, tipo_uso);
+            documento.Save();
+            documento.Close();
+        }
+        catch (FileNotFoundException e)
+        {
+            throw e;
+        }
+    }
+    /// <summary>
+    /// edita la tabla dentro del documento
+    /// DEPRECADO POR INESTABILIDAD
+    /// </summary>
+    /// <param name="rows"></param>
+    /// <param name="value"></param>
+    /// <param name="doc"></param>
+    static void EditTable(int rows, ref Document doc, string[] args, string tipo_uso)
+    {
+        try
+        {
+            string TIPO      = args[3];
+            string DOCUMENTO = args[4];
+            string CLIENTE   = args[5];
+            string CUENTA    = args[6];
+            string MONTO     = args[7];
+            string MANEJO    = tipo_uso;
+            string MONEDA_N = "";
+            string MONEDA_C = "";
+            if (args[8] == "1")
+            {
+                MONEDA_N = "Nacional";
+                MONEDA_C = "Bs";
+            }
+            else
+            {
+                MONEDA_N = "Extranjera";
+                MONEDA_C = "Sus";
+            }
+            ///
+            foreach (Section s in doc.Sections)
+            {
+                Tables tables = s.Range.Tables;
+                int count = 0;
+                foreach (Microsoft.Office.Interop.Word.Table table in tables)
+                {
+                    if (count > 0) 
+                        break;
+                    ///
+                    table.Rows.Add();
+                    for (var i = 1; i <= rows; i++)
+                    {
+                        table.Cell(i + 1, 1).Range.Text = CLIENTE + " " + TIPO + " " + DOCUMENTO;
+                        table.Cell(i + 1, 2).Range.Text = CUENTA;
+                        table.Cell(i + 1, 3).Range.Text = MANEJO;
+                        table.Cell(i + 1, 4).Range.Text = MONEDA_N;
+                        table.Cell(i + 1, 5).Range.Text = MONEDA_C + " " + MONTO;
+                        table.Cell(i + 1, 1).Range.Bold = 0;
+                        table.Cell(i + 1, 2).Range.Bold = 0;
+                        table.Cell(i + 1, 3).Range.Bold = 0;
+                        table.Cell(i + 1, 4).Range.Bold = 0;
+                        table.Cell(i + 1, 5).Range.Bold = 0;
+                    }
+                    table.Borders.Enable = 1;
+                    
+                    count++;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    /// <summary>
+    /// SAMPLE DE LA LIBRERIA Microsoft.Office.Interop.Word
+    /// DEPRECADO POR INESTABILIDAD
+    /// </summary>
+    /// <param name="WordApp"></param>
+    /// <param name="findText"></param>
+    /// <param name="replaceWithText"></param>
+    private static void FindAndReplace(Microsoft.Office.Interop.Word.Application WordApp, object findText, object replaceWithText)
+    {
+        object matchCase = true;
+        object matchWholeWord = true;
+        object matchWildCards = false;
+        object matchSoundsLike = false;
+        object nmatchAllWordForms = false;
+        object forward = true;
+        object format = false;
+        object matchKashida = false;
+        object matchDiacritics = false;
+        object matchAlefHamza = false;
+        object matchControl = false;
+        object read_only = false;
+        object visible = true;
+        object replace = 2;
+        object wrap = Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
+        object replaceAll = Microsoft.Office.Interop.Word.WdReplace.wdReplaceAll;
+        WordApp.Selection.Find.Execute(ref findText, ref matchCase, ref matchWholeWord, ref matchWildCards, ref matchSoundsLike,
+        ref nmatchAllWordForms, ref forward,
+        ref wrap, ref format, ref replaceWithText,
+        ref replaceAll, ref matchKashida,
+        ref matchDiacritics, ref matchAlefHamza,
+        ref matchControl);
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////
 }
 /// <summary>
 /// Convertir un numero a literal

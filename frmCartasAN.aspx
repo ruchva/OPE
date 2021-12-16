@@ -61,8 +61,22 @@
                     <dx:GridViewDataTextColumn FieldName="MONEDA" Caption="MONEDA" Visible="false" />
                     <dx:GridViewDataColumn VisibleIndex="5">
                         <DataItemTemplate>
-                            <dx:ASPxButton ID="ASPxButton1" runat="server" OnClick="generarCarta" 
-                                AutoPostBack="False" RenderMode="Link" Text="Carta" Visible='<%# Eval("CUENTA").ToString() != "" ? true : false%>' 
+                            <dx:ASPxButton ID="ASPxButton1" runat="server" OnClick="generaCartaRetencion_Click" 
+                                AutoPostBack="False" RenderMode="Link" Text="Carta Retención" Visible='<%# Eval("CUENTA").ToString() != "" && Eval("MONTO").ToString() != "0,00" ? true : false%>' 
+                                CommandArgument=' <%# Eval("SIREFO") +"|"+ 
+                                                      Eval("FECHA_CITE") +"|"+ 
+                                                      Eval("PIET") +"|"+ 
+                                                      Eval("TIPO") +"|"+ 
+                                                      Eval("NUMERO") +"|"+ 
+                                                      Eval("NOMBRE") +"|"+ 
+                                                      Eval("CUENTA") +"|"+ 
+                                                      Eval("MONTO") +"|"+
+                                                      Eval("MONEDA") %> ' >
+                                <Image IconID="actions_download_16x16" />
+                                <ClientSideEvents Click="" />   
+                            </dx:ASPxButton>
+                            <dx:ASPxButton ID="ASPxButton2" runat="server" OnClick="generaCartaBloqueo_Click" 
+                                AutoPostBack="False" RenderMode="Link" Text="Carta Bloqueo" Visible='<%# Eval("CUENTA").ToString() != "" && Eval("MONTO").ToString() == "0,00" ? true : false%>' 
                                 CommandArgument=' <%# Eval("SIREFO") +"|"+ 
                                                       Eval("FECHA_CITE") +"|"+ 
                                                       Eval("PIET") +"|"+ 
@@ -84,17 +98,6 @@
     </tr>
     </table>
 
-    <div style="padding: 10px 10px 10px 10px">
-        <dx:ASPxButton ID="btn" runat="server" ClientInstanceName="btn" ClientVisible="false" OnClick="btn_Click" />
-        <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-            <ContentTemplate>
-                <dx:ASPxButton ID="btnGeneraCartas" ClientInstanceName="btnGeneraCarta" runat="server" CausesValidation="true" ValidationGroup="submit" 
-                               Text="Generar Carta" Width="350" AutoPostBack="true" OnClick="btn_GenerarCarta_Click" >
-                    <ClientSideEvents Click="OnClick" />
-                </dx:ASPxButton>
-            </ContentTemplate>
-        </asp:UpdatePanel>
-    </div>
     <rsweb:ReportViewer ID="rptVisor" runat="server" AsyncRendering="false" Width="900" ZoomMode="PageWidth"></rsweb:ReportViewer>
 
 </asp:Content>

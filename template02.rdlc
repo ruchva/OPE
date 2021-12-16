@@ -11,7 +11,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>15cm</Height>
+              <Height>15.48709cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -54,8 +54,10 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!FECHA_CARTA_SPANISH.Value</Value>
-                                  <Style />
+                                  <Value>=Fields!FECHA_CARTA.Value</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -64,6 +66,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>FECHA_CARTA</rd:DefaultName>
+                          <Top>0.02065cm</Top>
                           <Left>2.38125cm</Left>
                           <Height>0.6cm</Height>
                           <Width>14.20875cm</Width>
@@ -118,7 +121,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!ID_RETENCIONESANIO.Value</Value>
+                                  <Value>SO/</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -186,17 +189,39 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!NOMBRE_RESPUESTA_CARTA.Value + 
- IIf(Len(Fields!CARGO_AUTORIDAD.Value)&gt;0, System.Environment.NewLine +Fields!CARGO_AUTORIDAD.Value, "") +
- IIf(Len(Fields!JUZGADO.Value)&gt;0, System.Environment.NewLine +Fields!JUZGADO.Value, "") +
- IIf(Fields!TIPO.Value="M", 
-	IIf(Len(Fields!DIRECCION.Value)&gt;0, System.Environment.NewLine + Fields!DIRECCION.Value, ""),
-	IIf(Len(Fields!SERVICIO.Value)&gt;0, System.Environment.NewLine + Fields!SERVICIO.Value, "")
- ) +
- IIf(Len(Fields!CIUDAD_DESTINO.Value)&gt;0, System.Environment.NewLine +Fields!CIUDAD_DESTINO.Value, "")</Value>
+                                  <Value>Geregte Regional</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Aduana Nacional</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>SANTA CRUZ</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>Underline</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -208,7 +233,7 @@
                           <rd:DefaultName>NOMBRE_RESPUESTA_CARTA</rd:DefaultName>
                           <Top>2.37558cm</Top>
                           <Left>0.0364cm</Left>
-                          <Height>2.85188cm</Height>
+                          <Height>1.63696cm</Height>
                           <Width>16.59cm</Width>
                           <ZIndex>5</ZIndex>
                           <Style>
@@ -228,23 +253,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>REF.- </Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                    <TextDecoration>Underline</TextDecoration>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!MOTIVO.Value</Value>
-                                  <Style>
-                                    <FontSize>11pt</FontSize>
-                                    <FontWeight>Bold</FontWeight>
-                                    <TextDecoration>Underline</TextDecoration>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value> DE FONDOS</Value>
+                                  <Value>REF.-  RETENCION DE FONDOS</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -258,7 +267,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox8</rd:DefaultName>
-                          <Top>6.14661cm</Top>
+                          <Top>4.18893cm</Top>
                           <Left>0.0364cm</Left>
                           <Height>0.6cm</Height>
                           <Width>16.59cm</Width>
@@ -290,7 +299,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox9</rd:DefaultName>
-                          <Top>7.76605cm</Top>
+                          <Top>4.93004cm</Top>
                           <Left>0.0364cm</Left>
                           <Height>0.6cm</Height>
                           <Width>16.59cm</Width>
@@ -318,7 +327,7 @@
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=Fields!NUM_CIRCULAR_ASFI.Value</Value>
+                                  <Value>=Fields!SIREFO.Value</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
@@ -331,35 +340,55 @@
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=Fields!FECHA_CIRCULAR_ASFI_SPANISH.Value</Value>
+                                  <Value>=Fields!FECHA_CITE.Value</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>  del año en curso, dentro del Proceso </Value>
+                                  <Value>, dentro del Proceso  </Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=IIf(Fields!TIPO.Value="M", Fields!NOMBRE_PROCESO.Value, Fields!CONCATENADO1.Value)</Value>
+                                  <Value>por el importe demandado de </Value>
                                   <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#000000</Color>
+                                  </Style>
+                                </TextRun>
+                                <TextRun>
+                                  <Value>=Fields!MONEDA_C.Value</Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#000000</Color>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value> informado mediante carta </Value>
+                                  <Value xml:space="preserve"> </Value>
                                   <Style>
+                                    <FontStyle>Normal</FontStyle>
                                     <FontSize>11pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#000000</Color>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=Fields!CODIGO_CONCATENADO.Value</Value>
+                                  <Value>=Fields!MONTO.Value</Value>
                                   <Style>
+                                    <FontStyle>Normal</FontStyle>
                                     <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#000000</Color>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -372,7 +401,7 @@
                                   <Value>=Fields!DEMANDANTE.Value</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -389,10 +418,10 @@
                                   </Style>
                                 </TextRun>
                                 <TextRun>
-                                  <Value>=IIf(Fields!TIPO.Value="M", Chr(34)+  Fields!DEMANDADO.Value +Chr(34), Fields!CONCATENADO2.Value)</Value>
+                                  <Value>=Fields!NOMBRE.Value</Value>
                                   <Style>
                                     <FontSize>11pt</FontSize>
-                                    <FontWeight>Normal</FontWeight>
+                                    <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                                 <TextRun>
@@ -406,9 +435,9 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox4</rd:DefaultName>
-                          <Top>8.54244cm</Top>
+                          <Top>5.81225cm</Top>
                           <Left>0.0364cm</Left>
-                          <Height>1.97583cm</Height>
+                          <Height>2.5158cm</Height>
                           <Width>16.59cm</Width>
                           <ZIndex>8</ZIndex>
                           <Style>
@@ -428,7 +457,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>No es/son cliente(s) </Value>
+                                  <Value>Es/son cliente(s) </Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontSize>11pt</FontSize>
@@ -452,7 +481,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox4</rd:DefaultName>
-                          <Top>10.80852cm</Top>
+                          <Top>8.39861cm</Top>
                           <Left>0.0364cm</Left>
                           <Height>0.62645cm</Height>
                           <Width>16.59cm</Width>
@@ -474,9 +503,27 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
+                                  <Value>Asimismo, informamos que solo se procedió al bloqueo de la cuenta quedando solo habilitada para depósitos del cliente mencionado, la misma no cuenta con saldo para realizar la retención del monto ordenado. </Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
                                   <Value>Con este particular esperando haber cumplido con su requerimiento, saludamos a usted atentamente.</Value>
                                   <Style>
+                                    <FontStyle>Normal</FontStyle>
                                     <FontSize>11pt</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>#000000</Color>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -484,9 +531,9 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox16</rd:DefaultName>
-                          <Top>12.70525cm</Top>
-                          <Left>0.0364cm</Left>
-                          <Height>0.6cm</Height>
+                          <Top>10.01312cm</Top>
+                          <Left>0.0728cm</Left>
+                          <Height>2.38189cm</Height>
                           <Width>16.5536cm</Width>
                           <ZIndex>10</ZIndex>
                           <Style>
@@ -519,8 +566,8 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox17</rd:DefaultName>
-                          <Top>14.03446cm</Top>
-                          <Left>0cm</Left>
+                          <Top>12.53612cm</Top>
+                          <Left>0.0728cm</Left>
                           <Height>0.6cm</Height>
                           <Width>16.59cm</Width>
                           <ZIndex>11</ZIndex>
@@ -538,10 +585,10 @@
                           <TablixBody>
                             <TablixColumns>
                               <TablixColumn>
-                                <Width>10.59cm</Width>
+                                <Width>8.60563cm</Width>
                               </TablixColumn>
                               <TablixColumn>
-                                <Width>6cm</Width>
+                                <Width>7.94797cm</Width>
                               </TablixColumn>
                             </TablixColumns>
                             <TablixRows>
@@ -582,14 +629,18 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="NUMERO_DOC1">
+                                      <Textbox Name="NUMERO">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!NUMERO_DOC.Value</Value>
+                                                <Value>C.I. </Value>
+                                                <Style />
+                                              </TextRun>
+                                              <TextRun>
+                                                <Value>=Fields!NUMERO.Value</Value>
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
@@ -597,7 +648,7 @@
                                             <Style />
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>NUMERO_DOC1</rd:DefaultName>
+                                        <rd:DefaultName>NUMERO</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Color>LightGrey</Color>
@@ -629,9 +680,10 @@
                             </TablixMembers>
                           </TablixRowHierarchy>
                           <DataSetName>DataSet1</DataSetName>
-                          <Top>11.72601cm</Top>
+                          <Top>9.20145cm</Top>
+                          <Left>0.0364cm</Left>
                           <Height>0.6cm</Height>
-                          <Width>16.59cm</Width>
+                          <Width>16.5536cm</Width>
                           <ZIndex>12</ZIndex>
                           <Style>
                             <Border>
@@ -676,16 +728,16 @@
         <TablixRowHierarchy>
           <TablixMembers>
             <TablixMember>
-              <Group Name="Personas">
+              <Group Name="CUENTA">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!ID_RETENCIONES.Value</GroupExpression>
+                  <GroupExpression>=Fields!CUENTA.Value</GroupExpression>
                 </GroupExpressions>
               </Group>
             </TablixMember>
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Height>15cm</Height>
+        <Height>15.48709cm</Height>
         <Width>16.7cm</Width>
         <Style>
           <Border>
@@ -694,53 +746,22 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>5.90551in</Height>
+    <Height>6.09728in</Height>
     <Style />
   </Body>
   <Width>6.5748in</Width>
   <Page>
     <PageFooter>
-      <Height>2cm</Height>
+      <Height>0.02646cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
-      <ReportItems>
-        <Textbox Name="USUARIO">
-          <CanGrow>true</CanGrow>
-          <KeepTogether>true</KeepTogether>
-          <Paragraphs>
-            <Paragraph>
-              <TextRuns>
-                <TextRun>
-                  <Value>=Fields!USUARIO.Value + System.Environment.NewLine + "C.C.: Archivo" + System.Environment.NewLine + System.Environment.NewLine</Value>
-                  <Style>
-                    <FontSize>6pt</FontSize>
-                  </Style>
-                </TextRun>
-              </TextRuns>
-              <Style />
-            </Paragraph>
-          </Paragraphs>
-          <rd:DefaultName>USUARIO</rd:DefaultName>
-          <Height>2cm</Height>
-          <Width>5cm</Width>
-          <Style>
-            <Border>
-              <Style>None</Style>
-            </Border>
-            <PaddingLeft>2pt</PaddingLeft>
-            <PaddingRight>2pt</PaddingRight>
-            <PaddingTop>2pt</PaddingTop>
-            <PaddingBottom>2pt</PaddingBottom>
-          </Style>
-        </Textbox>
-      </ReportItems>
       <Style>
         <Border>
           <Style>None</Style>
         </Border>
       </Style>
     </PageFooter>
-    <PageHeight>27.94cm</PageHeight>
+    <PageHeight>19cm</PageHeight>
     <PageWidth>21.59cm</PageWidth>
     <LeftMargin>3cm</LeftMargin>
     <RightMargin>2cm</RightMargin>
@@ -771,112 +792,68 @@
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="ID_RETENCIONES">
-          <DataField>ID_RETENCIONES</DataField>
+        <Field Name="SIREFO">
+          <DataField>SIREFO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FECHA_CITE">
+          <DataField>FECHA_CITE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PIET">
+          <DataField>PIET</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="TIPO">
           <DataField>TIPO</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="FECHA_CARTA">
-          <DataField>FECHA_CARTA</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="FECHA_CARTA_SPANISH">
-          <DataField>FECHA_CARTA_SPANISH</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="ID_RETENCIONESANIO">
-          <DataField>ID_RETENCIONESANIO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NOMBRE_RESPUESTA_CARTA">
-          <DataField>NOMBRE_RESPUESTA_CARTA</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CARGO_AUTORIDAD">
-          <DataField>CARGO_AUTORIDAD</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CIUDAD_DESTINO">
-          <DataField>CIUDAD_DESTINO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="SERVICIO">
-          <DataField>SERVICIO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="MOTIVO">
-          <DataField>MOTIVO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NUM_CIRCULAR_ASFI">
-          <DataField>NUM_CIRCULAR_ASFI</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="FECHA_CIRCULAR_ASFI">
-          <DataField>FECHA_CIRCULAR_ASFI</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="FECHA_CIRCULAR_ASFI_SPANISH">
-          <DataField>FECHA_CIRCULAR_ASFI_SPANISH</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NOMBRE_PROCESO">
-          <DataField>NOMBRE_PROCESO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NUM_CITE">
-          <DataField>NUM_CITE</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NUM_PROC_PIET">
-          <DataField>NUM_PROC_PIET</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="NUM_SELLO_RECEPCION">
-          <DataField>NUM_SELLO_RECEPCION</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CODIGO_CONCATENADO">
-          <DataField>CODIGO_CONCATENADO</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DEMANDANTE">
-          <DataField>DEMANDANTE</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="DEMANDADO">
-          <DataField>DEMANDADO</DataField>
+        <Field Name="NUMERO">
+          <DataField>NUMERO</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="NOMBRE">
           <DataField>NOMBRE</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="NUMERO_DOC">
-          <DataField>NUMERO_DOC</DataField>
+        <Field Name="CUENTA">
+          <DataField>CUENTA</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="USUARIO">
-          <DataField>USUARIO</DataField>
+        <Field Name="MONTO">
+          <DataField>MONTO</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CONCATENADO1">
-          <DataField>CONCATENADO1</DataField>
+        <Field Name="MONEDA">
+          <DataField>MONEDA</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="CONCATENADO2">
-          <DataField>CONCATENADO2</DataField>
+        <Field Name="FECHA_CARTA">
+          <DataField>FECHA_CARTA</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="DIRECCION">
-          <DataField>DIRECCION</DataField>
+        <Field Name="DEMANDANTE">
+          <DataField>DEMANDANTE</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="JUZGADO">
-          <DataField>JUZGADO</DataField>
+        <Field Name="MONEDA_L">
+          <DataField>MONEDA_L</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MONEDA_C">
+          <DataField>MONEDA_C</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MONEDA_N">
+          <DataField>MONEDA_N</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MONTO_LITERAL">
+          <DataField>MONTO_LITERAL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DESC_TIPO_USO">
+          <DataField>DESC_TIPO_USO</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
